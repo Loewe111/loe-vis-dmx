@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="FixtureProfile" load_steps=2 format=3 uid="uid://c36r0x2hc8xu4"]
+
+[ext_resource type="Script" uid="uid://bnk7t4a2wvm8y" path="res://core/resources/fixture_profile.gd" id="1_4vhes"]
+
+[resource]
+script = ExtResource("1_4vhes")
+manufacturer = "Varytec"
+name = "Giga Bar Pix 8"
+description = ""
+fixture_type = 5
+pan_range = 0
+pan_offset = 0
+tilt_range = 0
+tilt_offset = 0
+dmx_channels = Array[int]([4, 5, 6, 1, 2])
+brightness = 100
+beam_angle = 50
+beam_focus = 0.0
+colorFilter = Color(1, 1, 1, 1)
+metadata/_custom_type_script = "uid://bnk7t4a2wvm8y"

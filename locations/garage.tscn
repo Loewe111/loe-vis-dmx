@@ -1,0 +1,235 @@
+[gd_scene load_steps=20 format=3 uid="uid://cb3ece3qjcd4p"]
+
+[ext_resource type="Script" uid="uid://cyc0ual7130qa" path="res://core/location.gd" id="1_bk550"]
+[ext_resource type="Material" uid="uid://cxvnrx1lqm6eo" path="res://assets/materials/stone/floor.tres" id="3_jm562"]
+[ext_resource type="Script" uid="uid://cbdyx7y1j3ssc" path="res://core/artnet.gd" id="3_p1krn"]
+[ext_resource type="Script" uid="uid://cg7nufbur8srb" path="res://core/fixture.gd" id="6_k0kiy"]
+[ext_resource type="Material" uid="uid://b1s18hcgivixd" path="res://assets/materials/wood/wood.tres" id="6_kpvwb"]
+[ext_resource type="Resource" uid="uid://ns4m7o58fof" path="res://fixtures/profiles/led_par.tres" id="7_26agd"]
+[ext_resource type="Resource" uid="uid://jwdhsyfdsjba" path="res://fixtures/profiles/butterfly.tres" id="8_181j0"]
+[ext_resource type="Resource" uid="uid://dexw7okridwl7" path="res://fixtures/profiles/gobo_mh.tres" id="9_drl8f"]
+[ext_resource type="Resource" uid="uid://bawvl38gsufci" path="res://fixtures/profiles/picospot.tres" id="10_cqd10"]
+[ext_resource type="Resource" uid="uid://ckcecsc4rxsvr" path="res://fixtures/profiles/hero_wash.tres" id="11_xoehs"]
+[ext_resource type="Resource" uid="uid://cfni226uvbm5f" path="res://fixtures/profiles/wild_wash.tres" id="12_j5dn0"]
+[ext_resource type="Resource" uid="uid://c36r0x2hc8xu4" path="res://fixtures/profiles/giga_bar_pix.tres" id="13_6mrrf"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_et6i2"]
+material = ExtResource("3_jm562")
+size = Vector2(20, 15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mae2h"]
+material = ExtResource("6_kpvwb")
+size = Vector3(0.5, 1, 15)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_1d2rj"]
+size = Vector2(20, 6.6)
+orientation = 2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_d1keo"]
+size = Vector2(15, 6.6)
+orientation = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_a55qy"]
+size = Vector2(15, 6.6)
+orientation = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d1keo"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_j2ihw"]
+material = SubResource("StandardMaterial3D_d1keo")
+size = Vector2(20, 15)
+
+[node name="Garage" type="Node3D" node_paths=PackedStringArray("artnet", "camera")]
+script = ExtResource("1_bk550")
+location_name = "Garage"
+artnet = NodePath("ArtNet")
+camera = NodePath("Camera")
+metadata/_custom_type_script = "uid://cyc0ual7130qa"
+
+[node name="ArtNet" type="Node" parent="."]
+script = ExtResource("3_p1krn")
+
+[node name="Environment" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_et6i2")
+skeleton = NodePath("")
+
+[node name="Bar #0" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 6.1, 0)
+mesh = SubResource("BoxMesh_mae2h")
+
+[node name="Bar #1" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 6.1, 0)
+mesh = SubResource("BoxMesh_mae2h")
+
+[node name="Bar #2" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 6.1, 0)
+mesh = SubResource("BoxMesh_mae2h")
+
+[node name="Bar #3" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 6.1, 0)
+mesh = SubResource("BoxMesh_mae2h")
+
+[node name="Bar #4" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 6.1, 0)
+mesh = SubResource("BoxMesh_mae2h")
+
+[node name="Bar #5" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 6.1, 0)
+mesh = SubResource("BoxMesh_mae2h")
+
+[node name="Bar #6" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 6.1, 0)
+mesh = SubResource("BoxMesh_mae2h")
+
+[node name="Walls" type="Node3D" parent="Environment"]
+
+[node name="Wall1" type="MeshInstance3D" parent="Environment/Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.3, -7.5)
+mesh = SubResource("PlaneMesh_1d2rj")
+skeleton = NodePath("../..")
+
+[node name="Wall2" type="MeshInstance3D" parent="Environment/Walls"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 3.3, 7.5)
+mesh = SubResource("PlaneMesh_1d2rj")
+skeleton = NodePath("../..")
+
+[node name="Wall3" type="MeshInstance3D" parent="Environment/Walls"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 10, 3.3, 0)
+mesh = SubResource("PlaneMesh_d1keo")
+skeleton = NodePath("../..")
+
+[node name="Wall4" type="MeshInstance3D" parent="Environment/Walls"]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -10, 3.3, 0)
+mesh = SubResource("PlaneMesh_a55qy")
+skeleton = NodePath("../..")
+
+[node name="Roof" type="MeshInstance3D" parent="Environment/Walls"]
+transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0, 6.6, 0)
+mesh = SubResource("PlaneMesh_j2ihw")
+skeleton = NodePath("../..")
+
+[node name="PAR 1" type="Node3D" parent="."]
+transform = Transform3D(-4.2222e-08, 0.258819, 0.965926, 1.13133e-08, 0.965926, -0.258819, -1, 3.55485e-15, -4.37114e-08, 9.5, 5.1, -3.5)
+script = ExtResource("6_k0kiy")
+device_address = 13
+fixture_profile = ExtResource("7_26agd")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="PAR 2" type="Node3D" parent="."]
+transform = Transform3D(-4.2222e-08, 0.258819, 0.965926, 1.13133e-08, 0.965926, -0.258819, -1, 9.1951e-16, -4.37114e-08, 9.5, 5.1, 3.5)
+script = ExtResource("6_k0kiy")
+device_address = 21
+fixture_profile = ExtResource("7_26agd")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="PAR 3" type="Node3D" parent="."]
+transform = Transform3D(-3.78552e-08, 0.5, 0.866025, 2.18557e-08, 0.866025, -0.5, -1, 0, -4.37114e-08, 6.5, 5.1, -2.5)
+script = ExtResource("6_k0kiy")
+device_address = 29
+fixture_profile = ExtResource("7_26agd")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="PAR 4" type="Node3D" parent="."]
+transform = Transform3D(-3.78552e-08, 0.5, 0.866025, 2.18557e-08, 0.866025, -0.5, -1, 0, -4.37114e-08, 6.5, 5.1, 2.5)
+script = ExtResource("6_k0kiy")
+device_address = 37
+fixture_profile = ExtResource("7_26agd")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="PAR 5" type="Node3D" parent="."]
+transform = Transform3D(-3.09086e-08, 0.707107, 0.707107, 3.09086e-08, 0.707107, -0.707107, -1, 0, -4.37114e-08, 3.5, 5.1, -4)
+script = ExtResource("6_k0kiy")
+device_address = 45
+fixture_profile = ExtResource("7_26agd")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="PAR 6" type="Node3D" parent="."]
+transform = Transform3D(-3.09086e-08, 0.707107, 0.707107, 3.09086e-08, 0.707107, -0.707107, -1, 0, -4.37114e-08, 3.5, 5.1, 4)
+script = ExtResource("6_k0kiy")
+device_address = 53
+fixture_profile = ExtResource("7_26agd")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="Butterfly" type="Node3D" parent="."]
+transform = Transform3D(-0.707107, -0.353554, 0.612373, 1.49012e-08, 0.866026, 0.5, -0.707107, 0.353553, -0.612373, 9.5, 5.25, -6.5)
+script = ExtResource("6_k0kiy")
+device_address = 108
+fixture_profile = ExtResource("8_181j0")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="Gobo MH" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 6.5, 5.5, 0)
+script = ExtResource("6_k0kiy")
+device_address = 121
+fixture_profile = ExtResource("9_drl8f")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="PicoSpot 1" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 6.5, 5.5, -5)
+script = ExtResource("6_k0kiy")
+device_address = 133
+fixture_profile = ExtResource("10_cqd10")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="PicoSpot 2" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 6.5, 5.5, 5)
+script = ExtResource("6_k0kiy")
+device_address = 142
+fixture_profile = ExtResource("10_cqd10")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="Hero Wash 1" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 3.5, 5.5, -6.5)
+script = ExtResource("6_k0kiy")
+device_address = 151
+fixture_profile = ExtResource("11_xoehs")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="Hero Wash 2" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 3.5, 5.5, 6.5)
+script = ExtResource("6_k0kiy")
+device_address = 167
+fixture_profile = ExtResource("11_xoehs")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="Wild Wash 1" type="Node3D" parent="."]
+transform = Transform3D(-0.00257416, -0.502519, -0.864562, -0.00119673, 0.864566, -0.502518, 0.999996, -0.000258922, -0.00282691, 9.48884, 5.5, 0)
+script = ExtResource("6_k0kiy")
+device_address = 90
+fixture_profile = ExtResource("12_j5dn0")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="Wild Wash 2" type="Node3D" parent="."]
+transform = Transform3D(-0.00257416, -0.502519, -0.864562, -0.00119673, 0.864566, -0.502518, 0.999996, -0.000258922, -0.00282691, 6.48884, 5.5, -6.5)
+script = ExtResource("6_k0kiy")
+device_address = 96
+fixture_profile = ExtResource("12_j5dn0")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="Wild Wash 3" type="Node3D" parent="."]
+transform = Transform3D(-0.00257416, -0.502519, -0.864562, -0.00119673, 0.864566, -0.502518, 0.999996, -0.000258922, -0.00282691, 6.48884, 5.5, 6.5)
+script = ExtResource("6_k0kiy")
+device_address = 102
+fixture_profile = ExtResource("12_j5dn0")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="Giga Bar 1" type="Node3D" parent="."]
+transform = Transform3D(1.13133e-08, -0.965926, 0.258819, -4.2222e-08, -0.258819, -0.965926, 1, 9.1951e-16, -4.37114e-08, 3.50461, 5.18097, 0)
+script = ExtResource("6_k0kiy")
+device_address = 75
+fixture_profile = ExtResource("13_6mrrf")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="Giga Bar 2" type="Node3D" parent="."]
+transform = Transform3D(-1.13133e-08, -0.965926, -0.258819, -4.2222e-08, 0.258819, -0.965926, 1, -9.1951e-16, -4.37114e-08, 0.518106, 5.18097, -4)
+script = ExtResource("6_k0kiy")
+device_address = 80
+fixture_profile = ExtResource("13_6mrrf")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"
+
+[node name="Giga Bar 3" type="Node3D" parent="."]
+transform = Transform3D(-1.13133e-08, -0.965926, -0.258819, -4.2222e-08, 0.258819, -0.965926, 1, -9.1951e-16, -4.37114e-08, 0.518106, 5.18097, 4)
+script = ExtResource("6_k0kiy")
+device_address = 85
+fixture_profile = ExtResource("13_6mrrf")
+metadata/_custom_type_script = "uid://cg7nufbur8srb"

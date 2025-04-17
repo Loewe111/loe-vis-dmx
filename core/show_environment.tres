@@ -1,0 +1,11 @@
+[gd_resource type="Environment" format=3 uid="uid://ccp1dbbs4obon"]
+
+[resource]
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.01
+ssao_enabled = true
+glow_enabled = true
+fog_density = 1.0
+volumetric_fog_enabled = true
+volumetric_fog_temporal_reprojection_enabled = false

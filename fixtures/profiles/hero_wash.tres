@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="FixtureProfile" load_steps=2 format=3 uid="uid://ckcecsc4rxsvr"]
+
+[ext_resource type="Script" uid="uid://bnk7t4a2wvm8y" path="res://core/resources/fixture_profile.gd" id="1_xuumd"]
+
+[resource]
+script = ExtResource("1_xuumd")
+manufacturer = "Varytec"
+name = "Hero Wash 715 HEX"
+description = ""
+fixture_type = 2
+pan_range = 540
+pan_offset = 0
+tilt_range = 190
+tilt_offset = 95
+dmx_channels = Array[int]([8, 9, 10, 11, 0, 1, 2, 4, 5, 6, 7, 0, 0, 0, 0, 0])
+brightness = 120
+beam_angle = 35
+beam_focus = 0.0
+colorFilter = Color(1, 1, 1, 1)
+metadata/_custom_type_script = "uid://bnk7t4a2wvm8y"

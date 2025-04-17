@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://bnrlluvtctpv2"]
+
+[ext_resource type="Texture2D" uid="uid://ck4pfxhuwoh6y" path="res://assets/materials/devices/Plastic_NRM_1K.png" id="1_1j6xs"]
+[ext_resource type="Texture2D" uid="uid://myuchy1a2vgs" path="res://assets/materials/devices/Plastic_GLOSS_1K.png" id="2_q6smc"]
+
+[resource]
+albedo_color = Color(0.969137, 0.969137, 0.969137, 1)
+metallic = 0.3
+roughness_texture = ExtResource("2_q6smc")
+normal_enabled = true
+normal_texture = ExtResource("1_1j6xs")

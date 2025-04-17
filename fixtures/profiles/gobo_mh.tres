@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="FixtureProfile" load_steps=13 format=3 uid="uid://dexw7okridwl7"]
+
+[ext_resource type="Script" uid="uid://ehwy8biv682e" path="res://core/resources/color_wheel.gd" id="1_xn3ss"]
+[ext_resource type="Texture2D" uid="uid://cfherv75o868y" path="res://assets/gobos/gobo2.jpg" id="2_6x53u"]
+[ext_resource type="Texture2D" uid="uid://cxgcofke5o0cx" path="res://assets/gobos/gobo0.jpg" id="3_35n3r"]
+[ext_resource type="Texture2D" uid="uid://bvvht7yb6n4lk" path="res://assets/gobos/gobo3.jpg" id="4_0xel1"]
+[ext_resource type="Texture2D" uid="uid://dnkhh3skwdpi1" path="res://assets/gobos/gobo1.jpg" id="5_vv8ua"]
+[ext_resource type="Texture2D" uid="uid://c6i6ewbr5rpg0" path="res://assets/gobos/gobo6.jpg" id="6_2o37l"]
+[ext_resource type="Texture2D" uid="uid://dbuobheb884dw" path="res://assets/gobos/gobo4.jpg" id="7_pv3d3"]
+[ext_resource type="Texture2D" uid="uid://cvcmlwtmwe8ou" path="res://assets/gobos/gobo5.jpg" id="8_ipi63"]
+[ext_resource type="Script" uid="uid://c7eskkw8e8n1h" path="res://core/resources/gobo_wheel.gd" id="9_gysg8"]
+[ext_resource type="Script" uid="uid://bnk7t4a2wvm8y" path="res://core/resources/fixture_profile.gd" id="10_18rte"]
+
+[sub_resource type="Resource" id="Resource_rxs5j"]
+script = ExtResource("1_xn3ss")
+colors = Dictionary[int, Color]({
+0: Color(1, 1, 1, 1),
+10: Color(1, 0, 0, 1),
+20: Color(1, 1, 0, 1),
+30: Color(0, 0, 1, 1),
+40: Color(0, 1, 0, 1),
+50: Color(1, 0.498039, 0, 1),
+60: Color(1, 0, 1, 1),
+70: Color(0, 1, 1, 1)
+})
+metadata/_custom_type_script = "uid://ehwy8biv682e"
+
+[sub_resource type="Resource" id="Resource_n367k"]
+script = ExtResource("9_gysg8")
+gobos = Dictionary[int, Texture2D]({
+0: null,
+8: ExtResource("2_6x53u"),
+16: ExtResource("3_35n3r"),
+24: ExtResource("4_0xel1"),
+32: ExtResource("5_vv8ua"),
+40: ExtResource("6_2o37l"),
+48: ExtResource("7_pv3d3"),
+56: ExtResource("8_ipi63"),
+64: null,
+72: ExtResource("2_6x53u"),
+80: ExtResource("3_35n3r"),
+88: ExtResource("4_0xel1"),
+96: ExtResource("5_vv8ua"),
+104: ExtResource("6_2o37l"),
+112: ExtResource("7_pv3d3"),
+120: ExtResource("8_ipi63")
+})
+metadata/_custom_type_script = "uid://c7eskkw8e8n1h"
+
+[resource]
+script = ExtResource("10_18rte")
+manufacturer = "China"
+name = "Gobo MH"
+description = ""
+fixture_type = 2
+pan_range = 540
+pan_offset = 0
+tilt_range = 220
+tilt_offset = 110
+dmx_channels = Array[int]([8, 9, 10, 11, 3, 12, 2, 1, 0, 0, 0, 0])
+brightness = 100
+beam_angle = 15
+beam_focus = 0.5
+colorFilter = Color(1, 1, 1, 1)
+colorWheel = SubResource("Resource_rxs5j")
+goboWheel = SubResource("Resource_n367k")
+metadata/_custom_type_script = "uid://bnk7t4a2wvm8y"

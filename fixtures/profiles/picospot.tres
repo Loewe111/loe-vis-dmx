@@ -1,0 +1,59 @@
+[gd_resource type="Resource" script_class="FixtureProfile" load_steps=13 format=3 uid="uid://bawvl38gsufci"]
+
+[ext_resource type="Script" uid="uid://ehwy8biv682e" path="res://core/resources/color_wheel.gd" id="1_vgx74"]
+[ext_resource type="Script" uid="uid://bnk7t4a2wvm8y" path="res://core/resources/fixture_profile.gd" id="1_w15wf"]
+[ext_resource type="Texture2D" uid="uid://d1ca6k0c76yp6" path="res://assets/gobos/gobo10.svg" id="2_ykhnt"]
+[ext_resource type="Texture2D" uid="uid://d2kvn64o83xjd" path="res://assets/gobos/gobo12.svg" id="3_yua5o"]
+[ext_resource type="Texture2D" uid="uid://cxgcofke5o0cx" path="res://assets/gobos/gobo0.jpg" id="4_pndfj"]
+[ext_resource type="Texture2D" uid="uid://ene33f770x4u" path="res://assets/gobos/gobo8.svg" id="5_dv6im"]
+[ext_resource type="Texture2D" uid="uid://sj74etiut3yu" path="res://assets/gobos/gobo11.svg" id="6_w2m76"]
+[ext_resource type="Texture2D" uid="uid://brrotsg7h6niv" path="res://assets/gobos/gobo7.svg" id="7_fnn5f"]
+[ext_resource type="Texture2D" uid="uid://0uk608v4unpp" path="res://assets/gobos/gobo9.svg" id="8_mtnso"]
+[ext_resource type="Script" uid="uid://c7eskkw8e8n1h" path="res://core/resources/gobo_wheel.gd" id="9_b0bhq"]
+
+[sub_resource type="Resource" id="Resource_ydcq8"]
+script = ExtResource("1_vgx74")
+colors = Dictionary[int, Color]({
+0: Color(1, 1, 1, 1),
+11: Color(1, 0, 0, 1),
+22: Color(1, 0.498039, 0, 1),
+33: Color(1, 1, 0, 1),
+44: Color(0, 1, 0, 1),
+55: Color(0, 0, 1, 1),
+66: Color(0, 1, 1, 1),
+77: Color(1, 0, 1, 1)
+})
+metadata/_custom_type_script = "uid://ehwy8biv682e"
+
+[sub_resource type="Resource" id="Resource_dtg3u"]
+script = ExtResource("9_b0bhq")
+gobos = Dictionary[int, Texture2D]({
+0: null,
+16: ExtResource("2_ykhnt"),
+32: ExtResource("3_yua5o"),
+48: ExtResource("4_pndfj"),
+64: ExtResource("5_dv6im"),
+80: ExtResource("6_w2m76"),
+96: ExtResource("7_fnn5f"),
+112: ExtResource("8_mtnso")
+})
+metadata/_custom_type_script = "uid://c7eskkw8e8n1h"
+
+[resource]
+script = ExtResource("1_w15wf")
+manufacturer = "Fun Generation"
+name = "Picospot 45"
+description = ""
+fixture_type = 2
+pan_range = 540
+pan_offset = 0
+tilt_range = 200
+tilt_offset = 100
+dmx_channels = Array[int]([8, 10, 9, 11, 0, 3, 12, 1, 2])
+brightness = 100
+beam_angle = 13
+beam_focus = 0.5
+colorFilter = Color(1, 1, 1, 1)
+colorWheel = SubResource("Resource_ydcq8")
+goboWheel = SubResource("Resource_dtg3u")
+metadata/_custom_type_script = "uid://bnk7t4a2wvm8y"
