@@ -130,9 +130,10 @@ func init() -> void:
 		fixture_profile.fixture_type == FixtureProfile.FixtureType.COLOR_CHANGER):
 		fixture = load("res://fixtures/types/par.tscn").instantiate()
 	elif (fixture_profile.fixture_type == FixtureProfile.FixtureType.MOVING_HEAD_SPOT or
-		fixture_profile.fixture_type == FixtureProfile.FixtureType.MOVING_HEAD_WASH or
 		fixture_profile.fixture_type == FixtureProfile.FixtureType.MOVING_HEAD_BEAM):
 		fixture = load("res://fixtures/types/moving_head.tscn").instantiate()
+	elif fixture_profile.fixture_type == FixtureProfile.FixtureType.MOVING_HEAD_WASH:
+		fixture = load("res://fixtures/types/moving_head_wash.tscn").instantiate()
 	elif fixture_profile.fixture_type == FixtureProfile.FixtureType.FLOWER:
 		fixture = load("res://fixtures/types/flower.tscn").instantiate()
 	elif fixture_profile.fixture_type == FixtureProfile.FixtureType.STROBE:
