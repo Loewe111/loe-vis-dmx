@@ -17,11 +17,21 @@ class_name AdvancedFixture
 var dmx_data: Array[float] = []
 
 var artnet
+var fixture
 var light
+var light_surface
 var axes
-var color
 
 @onready var location: Location = get_tree().get_current_scene()
+
+var _dimmer: float = 0.0
+var _strobe: float = 0.0
+var _color: ExtendedColor = ExtendedColor.new()
+var _pan: float = 0.0
+var _tilt: float = 0.0
+var _rotation: float = 0.0
+var _gobo: Texture2D = null
+var _fog: float = 0.0
 
 var capabilities = {
 	"color": false,
@@ -110,27 +120,30 @@ func init() -> void:
 
 	checkCapabilities()
 
-	light = null
+	fixture = null
 	if (fixture_profile.fixture_type == FixtureProfile.FixtureType.DIMMER or 
 		fixture_profile.fixture_type == FixtureProfile.FixtureType.COLOR_CHANGER):
-		light = load("res://fixtures/types/par.tscn").instantiate()
+		fixture = load("res://fixtures/types/par.tscn").instantiate()
 	elif fixture_profile.fixture_type == FixtureProfile.FixtureType.MOVING_HEAD:
-		light = load("res://fixtures/types/moving_head.tscn").instantiate()
+		fixture = load("res://fixtures/types/moving_head.tscn").instantiate()
 	elif fixture_profile.fixture_type == FixtureProfile.FixtureType.FLOWER:
-		light = load("res://fixtures/types/flower.tscn").instantiate()
+		fixture = load("res://fixtures/types/flower.tscn").instantiate()
 	elif fixture_profile.fixture_type == FixtureProfile.FixtureType.STROBE:
-		light = load("res://fixtures/types/strobe.tscn").instantiate()
+		fixture = load("res://fixtures/types/strobe.tscn").instantiate()
 	elif fixture_profile.fixture_type == FixtureProfile.FixtureType.BAR:
-		light = load("res://fixtures/types/bar.tscn").instantiate()
+		fixture = load("res://fixtures/types/bar.tscn").instantiate()
 	
 
-	if light != null:
-		add_child(light)
-		light.find_child("light").spot_angle = fixture_profile.beam_angle
+	if fixture != null:
+		add_child(fixture)
+		light = fixture.find_child("light")
+		light_surface = fixture.find_child("light_surface")
+
+		light.spot_angle = fixture_profile.beam_angle
 		if not capabilities["color"]:
-			light.find_child("light").light_color = fixture_profile.colorFilter
-		light.find_child("light").light_energy = fixture_profile.brightness / 10.0
-		light.find_child("light").spot_attenuation = 2.0 - fixture_profile.beam_focus * 2.0
+			light.light_color = fixture_profile.colorFilter
+		light.light_energy = fixture_profile.brightness / 10.0
+		light.spot_attenuation = 2.0 - fixture_profile.beam_focus * 2.0
 
 	if not Engine.is_editor_hint():
 		_update_axes()
@@ -162,11 +175,6 @@ func _get_axis(id: String) -> float:
 	push_warning("Axis %d not found" % id)
 	return 0
 
-func _rgbw_to_rgb(r: float, g: float, b: float, w: float) -> Color:
-	var clr = Color(r+w, g+w, b+w)
-	clr /= max(clr.r, clr.g, clr.b, 1)
-	return clr
-
 func _get_channel_value(data: Array, channel: FixtureProfile.DMXChannelType):
 	if fixture_profile == null:
 		print_debug("Fixture profile is null")
@@ -189,75 +197,71 @@ func _on_art_net_dmx_data(data: Array[int], scaled_data: Array[float]) -> void:
 		push_warning("Fixture profile not configured")
 		artnet.dmx_data.disconnect(_on_art_net_dmx_data) # Disconnect to avoid spam
 		return
-	
-	color = fixture_profile.colorFilter
 
 	if capabilities["rgb"]:
-		color = _rgbw_to_rgb(
-			_get_channel_value(scaled_data, FixtureProfile.DMXChannelType.COLOR_RED),
-			_get_channel_value(scaled_data, FixtureProfile.DMXChannelType.COLOR_GREEN),
-			_get_channel_value(scaled_data, FixtureProfile.DMXChannelType.COLOR_BLUE),
-			_get_channel_value(scaled_data, FixtureProfile.DMXChannelType.COLOR_WHITE)
-		)
+		_color.color = Color(0, 0, 0)
+		if fixture_profile.has_channel(FixtureProfile.DMXChannelType.COLOR_RED):
+			_color.red = _get_channel_value(data, FixtureProfile.DMXChannelType.COLOR_RED)
+		if fixture_profile.has_channel(FixtureProfile.DMXChannelType.COLOR_GREEN):
+			_color.green = _get_channel_value(data, FixtureProfile.DMXChannelType.COLOR_GREEN)
+		if fixture_profile.has_channel(FixtureProfile.DMXChannelType.COLOR_BLUE):
+			_color.blue = _get_channel_value(data, FixtureProfile.DMXChannelType.COLOR_BLUE)
+		if fixture_profile.has_channel(FixtureProfile.DMXChannelType.COLOR_WHITE):
+			_color.white = _get_channel_value(data, FixtureProfile.DMXChannelType.COLOR_WHITE)
 
 	elif capabilities["color_changer"]:
 		var color_index = _get_channel_value(data, FixtureProfile.DMXChannelType.COLOR_WHEEL)
-		
-		var colors: Dictionary[int, Color] = fixture_profile.colorWheel.colors
-		var sorted_colors = colors.keys()
-		sorted_colors.sort()
+		_color.color = fixture_profile.colorWheel.getColor(color_index)
 
-		for i in range(0, sorted_colors.size()):
-			var color_value = sorted_colors[i]
-			if i < sorted_colors.size() - 1:
-				if color_index >= color_value and color_index < sorted_colors[i + 1]:
-					color = colors[color_value]
-					break
-			else:
-				if color_index >= color_value:
-					color = colors[color_value]
-					break
-
-	light.find_child("light").light_color = color
+	else:
+		_color.color = fixture_profile.colorFilter
 
 	if capabilities["dimmer"]:
-		light.find_child("light").light_energy = _get_channel_value(scaled_data, FixtureProfile.DMXChannelType.DIMMER) * fixture_profile.brightness / 10.0
-		color = color * _get_channel_value(scaled_data, FixtureProfile.DMXChannelType.DIMMER)
-
-	# Set Surface Color 
-	var light_surface = light.find_child("light_surface")
-	if light_surface != null:
-		var base_material: Material = light_surface.get_surface_override_material(0)
-		if base_material:
-			# Create a duplicate to ensure this instance has its unique material
-			var unique_material: Material = base_material.duplicate(true)
-			unique_material.albedo_color = color
-			unique_material.emission = color
-			light_surface.set_surface_override_material(0, unique_material)
-		else:
-			push_warning("No base material found for light surface")
+		_dimmer = _get_channel_value(scaled_data, FixtureProfile.DMXChannelType.DIMMER)
+	else:
+		_dimmer = 1.0
 
 	if capabilities["moving_head"]:
-		_set_axis("pan", _get_channel_value(scaled_data, FixtureProfile.DMXChannelType.PAN) * fixture_profile.pan_range - fixture_profile.pan_offset)
-		_set_axis("tilt", _get_channel_value(scaled_data, FixtureProfile.DMXChannelType.TILT) * fixture_profile.tilt_range - fixture_profile.tilt_offset)
+		var pan = _get_channel_value(data, FixtureProfile.DMXChannelType.PAN)
+		var pan_fine = _get_channel_value(data, FixtureProfile.DMXChannelType.PAN_FINE)
+		_pan = ((pan << 8) | pan_fine) / 65535.0
+		_pan = _pan * fixture_profile.pan_range - fixture_profile.pan_offset
+
+		var tilt = _get_channel_value(data, FixtureProfile.DMXChannelType.TILT)
+		var tilt_fine = _get_channel_value(data, FixtureProfile.DMXChannelType.TILT_FINE)
+		_tilt = ((tilt << 8) | tilt_fine) / 65535.0
+		_tilt = _tilt * fixture_profile.tilt_range - fixture_profile.tilt_offset
 
 	if capabilities["gobo"]:
 		var gobo_index = _get_channel_value(data, FixtureProfile.DMXChannelType.GOBO)
-	
-		var gobos: Dictionary[int, Texture2D] = fixture_profile.goboWheel.gobos 
-		var sorted_gobos = gobos.keys()
-		sorted_gobos.sort()
+		_gobo = fixture_profile.goboWheel.getGobo(gobo_index)
 
-		for i in range(0, sorted_gobos.size()):
-			var gobo_value = sorted_gobos[i]
-			if i < sorted_gobos.size() - 1:
-				if gobo_index >= gobo_value and gobo_index < sorted_gobos[i + 1]:
-					light.find_child("light").light_projector = gobos[gobo_value]
-					break
-			else:
-				if gobo_index >= gobo_value:
-					light.find_child("light").light_projector = gobos[gobo_value]
-					break
+	update()
+
+func update() -> void:
+	if fixture == null:
+		return
+
+	light.light_energy = _dimmer * fixture_profile.brightness / 10.0
+	light.light_color = _color.color
+
+	var light_surface_color = _color.color * _dimmer
+	if light_surface != null:
+		var base_material: Material = light_surface.get_surface_override_material(0)
+		if base_material:
+			var unique_material: Material = base_material.duplicate(true)
+			unique_material.albedo_color = light_surface_color
+			unique_material.emission = light_surface_color
+			light_surface.set_surface_override_material(0, unique_material)
+		else:
+			push_warning("No base material found for fixture surface")
+
+	if capabilities["gobo"]:
+		light.light_projector = _gobo
+	
+	if capabilities["moving_head"]:
+		_set_axis("pan", _pan)
+		_set_axis("tilt", _tilt)
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
