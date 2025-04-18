@@ -129,7 +129,9 @@ func init() -> void:
 	if (fixture_profile.fixture_type == FixtureProfile.FixtureType.DIMMER or 
 		fixture_profile.fixture_type == FixtureProfile.FixtureType.COLOR_CHANGER):
 		fixture = load("res://fixtures/types/par.tscn").instantiate()
-	elif fixture_profile.fixture_type == FixtureProfile.FixtureType.MOVING_HEAD:
+	elif (fixture_profile.fixture_type == FixtureProfile.FixtureType.MOVING_HEAD_SPOT or
+		fixture_profile.fixture_type == FixtureProfile.FixtureType.MOVING_HEAD_WASH or
+		fixture_profile.fixture_type == FixtureProfile.FixtureType.MOVING_HEAD_BEAM):
 		fixture = load("res://fixtures/types/moving_head.tscn").instantiate()
 	elif fixture_profile.fixture_type == FixtureProfile.FixtureType.FLOWER:
 		fixture = load("res://fixtures/types/flower.tscn").instantiate()
@@ -213,6 +215,10 @@ func _on_art_net_dmx_data(data: Array[int], scaled_data: Array[float]) -> void:
 			_color.blue = _get_channel_value(data, FixtureProfile.DMXChannelType.COLOR_BLUE)
 		if fixture_profile.has_channel(FixtureProfile.DMXChannelType.COLOR_WHITE):
 			_color.white = _get_channel_value(data, FixtureProfile.DMXChannelType.COLOR_WHITE)
+		if fixture_profile.has_channel(FixtureProfile.DMXChannelType.COLOR_AMBER):
+			_color.amber = _get_channel_value(data, FixtureProfile.DMXChannelType.COLOR_AMBER)
+		if fixture_profile.has_channel(FixtureProfile.DMXChannelType.COLOR_UV):
+			_color.uv = _get_channel_value(data, FixtureProfile.DMXChannelType.COLOR_UV)
 
 	elif capabilities["color_changer"]:
 		var color_index = _get_channel_value(data, FixtureProfile.DMXChannelType.COLOR_WHEEL)
