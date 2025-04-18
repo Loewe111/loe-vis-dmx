@@ -25,7 +25,12 @@ var axes
 @onready var location: Location = get_tree().get_current_scene()
 
 var _dimmer: float = 0.0
-var _strobe: float = 0.0
+var _strobe: Dictionary = {
+	"value": 0.0,
+	"frequency": 0.0,
+	"state": false,
+	"time": 0.0
+}
 var _color: ExtendedColor = ExtendedColor.new()
 var _pan: float = 0.0
 var _tilt: float = 0.0
@@ -236,16 +241,30 @@ func _on_art_net_dmx_data(data: Array[int], scaled_data: Array[float]) -> void:
 		var gobo_index = _get_channel_value(data, FixtureProfile.DMXChannelType.GOBO)
 		_gobo = fixture_profile.goboWheel.getGobo(gobo_index)
 
+	if fixture_profile.has_channel(FixtureProfile.DMXChannelType.STROBE):
+		_strobe["value"] = _get_channel_value(scaled_data, FixtureProfile.DMXChannelType.STROBE)
+
 	update()
 
 func update() -> void:
 	if fixture == null:
 		return
 
-	light.light_energy = _dimmer * fixture_profile.brightness / 10.0
-	light.light_color = _color.color
+	if fixture_profile.has_channel(FixtureProfile.DMXChannelType.STROBE):
+		if _strobe["value"] == 0:
+			_strobe["state"] = false
+		_strobe["frequency"] = lerp(0.0, 30.0, _strobe["value"])
 
-	var light_surface_color = _color.color * _dimmer
+	var light_surface_color = Color(0, 0, 0)
+	if not _strobe["state"]:
+		light.light_energy = _dimmer * fixture_profile.brightness / 10.0
+		light.light_color = _color.color
+		light_surface_color = _color.color * _dimmer
+	else:
+		light.light_energy = 0.0
+		light.light_color = Color(0, 0, 0)
+		light_surface_color = Color(0, 0, 0)
+
 	if light_surface != null:
 		var base_material: Material = light_surface.get_surface_override_material(0)
 		if base_material:
@@ -271,3 +290,10 @@ func _process(delta: float) -> void:
 		var r = _get_axis("rotation")
 		r += delta * _get_channel_value(dmx_data, FixtureProfile.DMXChannelType.ROTATION) * 25
 		_set_axis("rotation", r) 
+
+	if _strobe["frequency"] > 0:
+		_strobe["time"] += delta
+		if _strobe["time"] >= 1.0 / _strobe["frequency"]:
+			_strobe["state"] = !_strobe["state"]
+			_strobe["time"] = 0.0
+			update()
