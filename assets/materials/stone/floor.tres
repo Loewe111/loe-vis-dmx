@@ -10,4 +10,3 @@ normal_enabled = true
 normal_texture = ExtResource("2_5340y")
 rim_texture = ExtResource("2_5340y")
 uv1_scale = Vector3(4, 4, 4)
-billboard_mode = 1
