@@ -66,3 +66,6 @@ enum DMXChannelType {
 @export var colorWheel: ColorWheel
 ## If the fixture has a Gobo Wheel Channel
 @export var goboWheel: GoboWheel
+
+func has_channel(channel: DMXChannelType) -> bool:
+	return dmx_channels.has(channel)
