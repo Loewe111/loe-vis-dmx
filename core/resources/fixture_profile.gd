@@ -9,16 +9,16 @@ extends Resource
 @export var description: String
 
 enum FixtureType {
-	COLOR_CHANGER,
-	DIMMER,
-	MOVING_HEAD,
-	FLOWER,
-	STROBE,
-	BAR,
-	SPIDER,
-	FOGGER,
-	LASER,
-	MIRROR_BALL,
+	DIMMER = 0x00,
+	COLOR_CHANGER = 0x01,
+	STROBE = 0x02,
+	BAR = 0x03,
+	MOVING_HEAD_SPOT = 0x10,
+	MOVING_HEAD_WASH = 0x11,
+	MOVING_HEAD_BEAM = 0x12,
+	SPIDER = 0x13,
+	FLOWER = 0x20,
+	FOGGER = 0x30,
 }
 
 @export var fixture_type: FixtureType = FixtureType.COLOR_CHANGER
@@ -33,22 +33,24 @@ enum FixtureType {
 @export_group("DMX Channels")
 
 enum DMXChannelType {
-	NONE,
-	DIMMER,
-	STROBE,
-	COLOR_WHEEL,
-	COLOR_RED,
-	COLOR_GREEN,
-	COLOR_BLUE,
-	COLOR_WHITE,
-	PAN,
-	PAN_FINE,
-	TILT,
-	TILT_FINE,
-	GOBO,
-	FOG,
-	SPECIAL,
-	ROTATION,
+	NONE = 0x00,
+	DIMMER = 0x01,
+	STROBE = 0x02,
+	COLOR_WHEEL = 0x10,
+	COLOR_RED = 0x11,
+	COLOR_GREEN = 0x12,
+	COLOR_BLUE = 0x13,
+	COLOR_WHITE = 0x14,
+	COLOR_AMBER = 0x15,
+	COLOR_UV = 0x16,
+	PAN = 0x20,
+	PAN_FINE = 0x21,
+	TILT = 0x22,
+	TILT_FINE = 0x23,
+	ROTATION = 0x24,
+	GOBO = 0x30,
+	FOG = 0x40,
+	SPECIAL = 0x41,
 }
 
 @export var dmx_channels: Array[DMXChannelType] 
