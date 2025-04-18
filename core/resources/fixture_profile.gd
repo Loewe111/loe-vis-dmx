@@ -9,16 +9,16 @@ extends Resource
 @export var description: String
 
 enum FixtureType {
-    COLOR_CHANGER,
-    DIMMER,
-    MOVING_HEAD,
-    FLOWER,
-    STROBE,
-    BAR,
-    SPIDER,
-    FOGGER,
-    LASER,
-    MIRROR_BALL,
+	COLOR_CHANGER,
+	DIMMER,
+	MOVING_HEAD,
+	FLOWER,
+	STROBE,
+	BAR,
+	SPIDER,
+	FOGGER,
+	LASER,
+	MIRROR_BALL,
 }
 
 @export var fixture_type: FixtureType = FixtureType.COLOR_CHANGER
@@ -33,22 +33,22 @@ enum FixtureType {
 @export_group("DMX Channels")
 
 enum DMXChannelType {
-    NONE,
-    DIMMER,
-    STROBE,
-    COLOR_WHEEL,
-    COLOR_RED,
-    COLOR_GREEN,
-    COLOR_BLUE,
-    COLOR_WHITE,
-    PAN,
-    PAN_FINE,
-    TILT,
-    TILT_FINE,
-    GOBO,
-    FOG,
-    SPECIAL,
-    ROTATION,
+	NONE,
+	DIMMER,
+	STROBE,
+	COLOR_WHEEL,
+	COLOR_RED,
+	COLOR_GREEN,
+	COLOR_BLUE,
+	COLOR_WHITE,
+	PAN,
+	PAN_FINE,
+	TILT,
+	TILT_FINE,
+	GOBO,
+	FOG,
+	SPECIAL,
+	ROTATION,
 }
 
 @export var dmx_channels: Array[DMXChannelType] 
